@@ -4,6 +4,7 @@ import type { Metadata } from "next";
 
 import Header from "@/components/common/header/Header";
 import theme from "@/utils/theme";
+import QueryProvider from "@/contexts/queryProviders";
 
 export const metadata: Metadata = {
   title: "Health Worker Dashboard",
@@ -21,8 +22,10 @@ export default function RootLayout({
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
-            <Header />
-            <main>{children}</main>
+            <QueryProvider>
+              <Header />
+              <main>{children}</main>
+            </QueryProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>
       </body>
