@@ -24,24 +24,21 @@ export interface Form {
 
 // Input for creating a form
 export interface CreateFormInput {
-  title: string;
-  description: string;
+  familyId: string;
+  cohort: string;
   firstName: string;
   lastName: string;
-  age: number;
-  gender: "Male" | "Female" | "Other";
+  dob: string | null; // ISO date string
+  age: string;
+  gender: string;
   state: string;
-  district: string;
+  vaccinationStatus: string;
+  height: string;
+  weightKg: string;
+  weightGrams: string;
+  bmi: string;
   nutritionStatus: string;
-  createdAt: string; // ISO date string
-  updatedAt: string; // ISO date string
-  deletedAt: string | null; // ISO date string
-  dob: string; // ISO date string
-  enrolled_feeding_program: boolean;
-  family_id: string;
-  height: number;
-  weight: number;
-  vaccination_status: string;
+  enrolledFeedingProgram: boolean;
   additionalNotes?: string;
 }
 

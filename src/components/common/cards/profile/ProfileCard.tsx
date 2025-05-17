@@ -16,7 +16,7 @@ type ProfileCardProps = {
   id: string;
   firstName: string;
   lastName: string;
-  age: number;
+  age: string;
   gender: string;
   state: string;
   nutritionStatus: string;

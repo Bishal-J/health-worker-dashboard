@@ -11,11 +11,21 @@ import {
   CircularProgress,
 } from "@mui/material";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const { isLoading, data } = useFetchFormCount();
-
   const submittedFormCount = data?.submitted_form_count ?? 0;
+
+  const [draftFormCount, setDraftFormCount] = useState(0);
+
+  // Load draft form count from localStorage on mount
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const drafts = JSON.parse(localStorage.getItem("formDrafts") || "[]");
+      setDraftFormCount(drafts.length);
+    }
+  }, []);
 
   return (
     <Box
@@ -58,7 +68,7 @@ export default function Home() {
               flexDirection: "column",
               gap: 2,
               mb: 4,
-              minHeight: 100, // Reserve space to prevent layout shift
+              minHeight: 100,
               justifyContent: isLoading ? "center" : "flex-start",
               alignItems: isLoading ? "center" : "stretch",
             }}
@@ -72,10 +82,11 @@ export default function Home() {
                   link="form-submit"
                   count={submittedFormCount}
                 />
+
                 <FormLink
                   title="Forms Sync"
                   link="form-sync"
-                  count={submittedFormCount}
+                  count={draftFormCount}
                 />
               </>
             )}
@@ -85,7 +96,7 @@ export default function Home() {
             variant="contained"
             size="large"
             LinkComponent={Link}
-            href="/entry-new/general-details"
+            href="/entry-new"
             sx={{
               px: 4,
               fontWeight: 600,

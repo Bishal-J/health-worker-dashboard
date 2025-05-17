@@ -7,7 +7,7 @@ import theme from "@/utils/theme";
 import QueryProvider from "@/contexts/queryProviders";
 
 export const metadata: Metadata = {
-  title: "Health Worker Dashboard",
+  title: "Health Worker",
   description: "Manage and submit healthcare forms efficiently.",
 };
 
