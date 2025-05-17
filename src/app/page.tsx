@@ -1,9 +1,22 @@
 "use client";
+
+import { useFetchFormCount } from "@/apis/workers";
 import FormLink from "@/components/form-link/FormLink";
-import { Box, Button, Container, Typography, Paper } from "@mui/material";
+import {
+  Box,
+  Button,
+  Container,
+  Typography,
+  Paper,
+  CircularProgress,
+} from "@mui/material";
 import Link from "next/link";
 
 export default function Home() {
+  const { isLoading, data } = useFetchFormCount();
+
+  const submittedFormCount = data?.submitted_form_count ?? 0;
+
   return (
     <Box
       sx={{
@@ -39,9 +52,33 @@ export default function Home() {
             Choose an option below to continue your work.
           </Typography>
 
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 2, mb: 4 }}>
-            <FormLink title="Forms Submitted" link="form-submit" count={22} />
-            <FormLink title="Forms Sync" link="form-sync" count={22} />
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: 2,
+              mb: 4,
+              minHeight: 100, // Reserve space to prevent layout shift
+              justifyContent: isLoading ? "center" : "flex-start",
+              alignItems: isLoading ? "center" : "stretch",
+            }}
+          >
+            {isLoading ? (
+              <CircularProgress size={28} />
+            ) : (
+              <>
+                <FormLink
+                  title="Forms Submitted"
+                  link="form-submit"
+                  count={submittedFormCount}
+                />
+                <FormLink
+                  title="Forms Sync"
+                  link="form-sync"
+                  count={submittedFormCount}
+                />
+              </>
+            )}
           </Box>
 
           <Button

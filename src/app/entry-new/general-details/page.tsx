@@ -1,4 +1,4 @@
-import MultiStepFormOne from "@/components/common/multistepform/MultiStepForm";
+import MultiStepFormOne from "@/components/common/multistepform/MultiStepFormOne";
 
 const GeneralDetailsPage = () => {
   return <MultiStepFormOne />;

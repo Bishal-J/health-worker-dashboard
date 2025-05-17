@@ -1,5 +1,5 @@
 export const HEALTH_WORKER_ENDPOINT = {
-  form: "form",
+  form: "forms",
   formId: (id: string) => `form/${id}`,
-  formCount: "form/count",
+  formCount: "forms/count",
 };

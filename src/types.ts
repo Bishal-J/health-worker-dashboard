@@ -3,14 +3,46 @@ export interface Form {
   uuid: string;
   title: string;
   description: string;
-  // Add other fields as needed
+  first_name: string;
+  last_name: string;
+  age: number;
+  gender: "Male" | "Female" | "Other";
+  state: string;
+  district: string;
+  nutrition_status: "Well-nourished" | "Malnourished" | "At risk" | string;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  deletedAt: string | null; // ISO date string
+  dob: string; // ISO date string
+  enrolled_feeding_program: boolean;
+  family_id: string;
+  height: number;
+  weight: number;
+  vaccination_status: string;
+  additionalNotes?: string;
 }
 
 // Input for creating a form
 export interface CreateFormInput {
   title: string;
   description: string;
-  // Match with the form structure expected by the API
+  firstName: string;
+  lastName: string;
+  age: number;
+  gender: "Male" | "Female" | "Other";
+  state: string;
+  district: string;
+  nutritionStatus: string;
+  createdAt: string; // ISO date string
+  updatedAt: string; // ISO date string
+  deletedAt: string | null; // ISO date string
+  dob: string; // ISO date string
+  enrolled_feeding_program: boolean;
+  family_id: string;
+  height: number;
+  weight: number;
+  vaccination_status: string;
+  additionalNotes?: string;
 }
 
 // API response shape

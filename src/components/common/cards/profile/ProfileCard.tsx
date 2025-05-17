@@ -53,7 +53,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
               component="div"
               gutterBottom
               color="text.primary"
-              sx={{ fontWeight: "bold" }}
+              sx={{ fontWeight: "bold", textTransform: "capitalize" }}
             >
               {firstName} {lastName}
             </Typography>

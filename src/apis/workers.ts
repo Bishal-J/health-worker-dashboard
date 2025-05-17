@@ -44,10 +44,10 @@ export const useFetchFormById = (uuid: string) => {
 
 // Fetch form count
 export const useFetchFormCount = () => {
-  return useQuery<number>({
+  return useQuery<any>({
     queryKey: QUERY_KEYS.forms.count,
     queryFn: async () => {
-      const res = await axiosGet<ApiResponse<number>>(
+      const res = await axiosGet<ApiResponse<any>>(
         HEALTH_WORKER_ENDPOINT.formCount
       );
       return res.data.body;
