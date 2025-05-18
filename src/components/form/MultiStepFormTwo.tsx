@@ -3,6 +3,7 @@ import {
   Button,
   Checkbox,
   FormControlLabel,
+  MenuItem,
   Paper,
   TextField,
   Typography,
@@ -64,6 +65,7 @@ const MultiStepFormTwo: React.FC<Props> = ({
           <Form>
             <Box display="flex" flexDirection="column" gap={3}>
               <TextField
+                select
                 name="vaccinationStatus"
                 label="Vaccination Status"
                 value={values.vaccinationStatus}
@@ -74,7 +76,12 @@ const MultiStepFormTwo: React.FC<Props> = ({
                 helperText={
                   touched.vaccinationStatus && errors.vaccinationStatus
                 }
-              />
+              >
+                <MenuItem value="fully">Fully</MenuItem>
+                <MenuItem value="partially">Partial</MenuItem>
+                <MenuItem value="none">None</MenuItem>
+              </TextField>
+
               <TextField
                 name="height"
                 label="Height (cm)"
@@ -121,7 +128,9 @@ const MultiStepFormTwo: React.FC<Props> = ({
                 error={touched.bmi && Boolean(errors.bmi)}
                 helperText={touched.bmi && errors.bmi}
               />
+
               <TextField
+                select
                 name="nutritionStatus"
                 label="Nutrition Status"
                 value={values.nutritionStatus}
@@ -130,7 +139,12 @@ const MultiStepFormTwo: React.FC<Props> = ({
                   touched.nutritionStatus && Boolean(errors.nutritionStatus)
                 }
                 helperText={touched.nutritionStatus && errors.nutritionStatus}
-              />
+              >
+                <MenuItem value="good">Good</MenuItem>
+                <MenuItem value="moderate">Moderate</MenuItem>
+                <MenuItem value="poor">Poor</MenuItem>
+              </TextField>
+
               <FormControlLabel
                 control={
                   <Checkbox

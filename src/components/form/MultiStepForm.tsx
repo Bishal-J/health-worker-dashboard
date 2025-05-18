@@ -47,7 +47,7 @@ const MultiStepForm: React.FC = () => {
     vaccinationStatus: "",
     height: "",
     weightKg: "",
-    weightGrams: "",
+    weightGrams: "0",
     bmi: "",
     nutritionStatus: "",
     enrolledFeedingProgram: false,
@@ -64,9 +64,10 @@ const MultiStepForm: React.FC = () => {
     const fullData = { ...formData, ...finalData };
 
     mutate(fullData, {
-      onSuccess: console.log("Success"),
+      onSuccess: () => {
+        router.replace("/form-submit");
+      },
     });
-    console.log("Final Submit Data:", fullData);
   };
 
   const handleSaveDraft = (finalData: Partial<FormData>) => {

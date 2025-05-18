@@ -61,9 +61,9 @@ const MultiStepFormOne: React.FC<Props> = ({ data, onNext }) => {
                 error={touched.cohort && Boolean(errors.cohort)}
                 helperText={touched.cohort && errors.cohort}
               >
-                <MenuItem value="2025-01-01">Jan 1, 2025</MenuItem>
-                <MenuItem value="2025-02-01">Feb 1, 2025</MenuItem>
-                <MenuItem value="2025-03-01">Mar 1, 2025</MenuItem>
+                <MenuItem value="2022-23">2022-2023</MenuItem>
+                <MenuItem value="2023-24">2023-2024</MenuItem>
+                <MenuItem value="2024-25">2024-2025</MenuItem>
               </TextField>
 
               <TextField
@@ -108,18 +108,26 @@ const MultiStepFormOne: React.FC<Props> = ({ data, onNext }) => {
                 label="Age"
                 type="number"
                 value={values.age}
+                disabled
                 onChange={handleChange}
                 error={touched.age && Boolean(errors.age)}
                 helperText={touched.age && errors.age}
               />
+
               <TextField
+                select
                 name="gender"
                 label="Gender"
                 value={values.gender}
                 onChange={handleChange}
                 error={touched.gender && Boolean(errors.gender)}
                 helperText={touched.gender && errors.gender}
-              />
+              >
+                <MenuItem value="male">Male</MenuItem>
+                <MenuItem value="female">Female</MenuItem>
+                <MenuItem value="others">Others</MenuItem>
+              </TextField>
+
               <TextField
                 name="state"
                 label="State"

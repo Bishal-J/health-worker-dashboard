@@ -2,10 +2,12 @@
 export interface Form {
   uuid: string;
   title: string;
+  cohort: string;
   description: string;
   first_name: string;
   last_name: string;
   age: number;
+  bmi: number;
   gender: "Male" | "Female" | "Other";
   state: string;
   district: string;

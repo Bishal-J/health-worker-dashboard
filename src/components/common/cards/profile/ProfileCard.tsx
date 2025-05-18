@@ -35,7 +35,7 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
     <Link
       component={NextLink}
       sx={{ textDecoration: "none" }}
-      href={`/profile/${id}`}
+      href={`/form-submit/${id}`}
     >
       <Card
         elevation={0}

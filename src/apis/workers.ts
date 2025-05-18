@@ -63,7 +63,7 @@ export const useCreateForm = () => {
     mutationKey: QUERY_KEYS.forms.create,
     mutationFn: async (params) => {
       const res = await axiosPost<ApiResponse<Form>>(
-        HEALTH_WORKER_ENDPOINT.form,
+        HEALTH_WORKER_ENDPOINT.postForm,
         params
       );
       return res.data.body;
