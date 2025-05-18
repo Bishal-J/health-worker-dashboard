@@ -1,41 +1,43 @@
 "use client";
 
+import { Form } from "@/types";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import {
   Box,
-  Typography,
-  Paper,
-  Chip,
-  Divider,
   Button,
-  Grid,
-  CircularProgress,
+  Chip,
   Container,
+  Divider,
+  Grid,
+  Paper,
+  Typography,
 } from "@mui/material";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import { useParams, useRouter } from "next/navigation";
-import { useFetchFormById } from "@/apis/workers";
 import dayjs from "dayjs";
+import { useParams, useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
-export default function FormSubmitSinglePage() {
+export default function FormSyncSinglePage() {
   const router = useRouter();
   const { uuid } = useParams() as { uuid: string };
-  const { data: profile, isLoading, isError } = useFetchFormById(uuid);
+  const [profile, setProfile] = useState<Form | null>(null);
 
-  if (isLoading) {
-    return (
-      <CenteredBox>
-        <CircularProgress size={40} thickness={5} />
-      </CenteredBox>
-    );
-  }
+  useEffect(() => {
+    const data = localStorage.getItem("formDrafts");
 
-  if (isError || !profile) {
+    if (data) {
+      const parsed: Form[] = JSON.parse(data);
+      const matchingProfile = parsed.find((item) => item.uuid === uuid);
+      setProfile(matchingProfile || null);
+    }
+  }, [uuid]);
+
+  if (!profile) {
     return (
-      <CenteredBox>
-        <Typography variant="h6" color="error">
-          Failed to load profile data.
+      <Container maxWidth="md" sx={{ py: 6 }}>
+        <Typography variant="h6" color="text.secondary">
+          Loading profile...
         </Typography>
-      </CenteredBox>
+      </Container>
     );
   }
 
@@ -57,11 +59,11 @@ export default function FormSubmitSinglePage() {
           alignItems="center"
           mb={4}
         >
-          <Field label="Family ID" value={profile.family_id} />
+          <Field label="Family ID" value={profile.familyId} />
           <Button
             variant="outlined"
             startIcon={<ArrowBackIcon />}
-            onClick={router.back}
+            onClick={() => router.back()}
           >
             Go Back
           </Button>
@@ -74,7 +76,7 @@ export default function FormSubmitSinglePage() {
           <Grid size={{ xs: 12, md: 6 }}>
             <Field
               label="Full Name"
-              value={`${profile.first_name} ${profile.last_name}`}
+              value={`${profile.firstName} ${profile.lastName}`}
             />
             <Field
               label="Date of Birth"
@@ -105,8 +107,8 @@ export default function FormSubmitSinglePage() {
               Nutrition Status
             </Typography>
             <Chip
-              label={capitalize(profile.nutrition_status)}
-              color={profile.nutrition_status === "poor" ? "error" : "success"}
+              label={capitalize(profile.nutritionStatus)}
+              color={profile.nutritionStatus === "poor" ? "error" : "success"}
               variant="filled"
               sx={{ mt: 1 }}
             />
@@ -117,7 +119,7 @@ export default function FormSubmitSinglePage() {
               Vaccination Status
             </Typography>
             <Typography variant="body1" sx={{ mt: 1 }}>
-              {capitalize(profile.vaccination_status)}
+              {capitalize(profile.vaccinationStatus)}
             </Typography>
           </Grid>
 
@@ -126,8 +128,8 @@ export default function FormSubmitSinglePage() {
               Enrolled in Feeding Program
             </Typography>
             <Chip
-              label={profile.enrolled_feeding_program ? "Yes" : "No"}
-              color={profile.enrolled_feeding_program ? "success" : "default"}
+              label={profile.enrolledFeedingProgram ? "Yes" : "No"}
+              color={profile.enrolledFeedingProgram ? "success" : "default"}
               variant="filled"
               sx={{ mt: 1 }}
             />
@@ -138,7 +140,8 @@ export default function FormSubmitSinglePage() {
   );
 }
 
-const Field = ({ label, value }: { label: string; value: string }) => (
+// Helper components
+const Field = ({ label, value }: { label: string; value: string | number }) => (
   <Box mb={2}>
     <Typography
       variant="subtitle2"
@@ -156,15 +159,3 @@ const Field = ({ label, value }: { label: string; value: string }) => (
 
 const capitalize = (text: string) =>
   text ? text.charAt(0).toUpperCase() + text.slice(1).toLowerCase() : "";
-
-const CenteredBox = ({ children }: { children: React.ReactNode }) => (
-  <Box
-    display="flex"
-    justifyContent="center"
-    alignItems="center"
-    minHeight="100vh"
-    bgcolor="background.default"
-  >
-    {children}
-  </Box>
-);

@@ -14,7 +14,9 @@ export default function FormSyncPage() {
   const [searchValue, setSearchValue] = useState("");
   const [draftForms, setDraftForms] = useState<FormData[]>([]);
 
-  const handleSyncData = () => {};
+  const handleSyncData = () => {
+    // Placeholder for syncing logic
+  };
 
   // Load drafts from localStorage
   useEffect(() => {
@@ -25,6 +27,14 @@ export default function FormSyncPage() {
       setDraftForms(savedDrafts);
     }
   }, []);
+
+  // Delete draft by ID
+  const handleDeleteDraft = (uuid: string | undefined) => {
+    if (!uuid) return;
+    const updatedDrafts = draftForms.filter((form) => form.uuid !== uuid);
+    setDraftForms(updatedDrafts);
+    localStorage.setItem("formDrafts", JSON.stringify(updatedDrafts));
+  };
 
   // Filter based on search input
   const filteredDrafts = draftForms.filter((form) => {
@@ -72,7 +82,6 @@ export default function FormSyncPage() {
             fullWidth
             variant="contained"
             size="large"
-            type="button"
             onClick={handleSyncData}
           >
             Sync Data
@@ -91,14 +100,17 @@ export default function FormSyncPage() {
           {filteredDrafts.length > 0 ? (
             filteredDrafts.map((form, index) => (
               <ProfileCard
+                link={`/form-sync/${form.uuid}`}
                 key={index}
-                id={form.familyId}
+                id={form.uuid}
                 firstName={form.firstName}
                 lastName={form.lastName}
                 age={form.age}
                 gender={form.gender}
                 state={form.state}
                 nutritionStatus={form.nutritionStatus}
+                onDelete={handleDeleteDraft}
+                showDeleteButton={true}
               />
             ))
           ) : (

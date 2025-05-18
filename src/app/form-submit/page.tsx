@@ -93,6 +93,7 @@ export default function FormSubmitPage() {
             ) : (
               filteredForms.map((form: Form) => (
                 <ProfileCard
+                  link={`/form-submit/${form.uuid}`}
                   key={form.uuid}
                   id={form.uuid}
                   firstName={form.first_name}

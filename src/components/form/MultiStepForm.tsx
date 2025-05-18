@@ -5,6 +5,11 @@ import MultiStepFormOne from "./MultiStepOne";
 import MultiStepFormTwo from "./MultiStepFormTwo";
 import { useCreateForm } from "@/apis/workers";
 import { useRouter } from "next/navigation";
+import { v4 as uuidv4 } from "uuid";
+
+export interface UUID {
+  uuid?: string;
+}
 
 export interface GeneralDetails {
   familyId: string;
@@ -27,7 +32,7 @@ export interface VaccinationDetails {
   enrolledFeedingProgram: boolean;
 }
 
-export type FormData = GeneralDetails & VaccinationDetails;
+export type FormData = GeneralDetails & VaccinationDetails & UUID;
 
 const steps = ["General Details", "Vaccination & Nutrition"];
 
@@ -61,7 +66,11 @@ const MultiStepForm: React.FC = () => {
   };
 
   const handleSubmit = (finalData: Partial<FormData>) => {
-    const fullData = { ...formData, ...finalData };
+    const fullData = {
+      ...formData,
+      ...finalData,
+      state: formData.state.toLowerCase(),
+    };
 
     mutate(fullData, {
       onSuccess: () => {
@@ -71,7 +80,7 @@ const MultiStepForm: React.FC = () => {
   };
 
   const handleSaveDraft = (finalData: Partial<FormData>) => {
-    const fullData = { ...formData, ...finalData };
+    const fullData = { ...formData, ...finalData, uuid: uuidv4() };
 
     // Get existing drafts array from localStorage or initialize a new one
     const existingDrafts = JSON.parse(
