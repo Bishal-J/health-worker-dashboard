@@ -59,6 +59,7 @@ const MultiStepFormTwo: React.FC<Props> = ({
       <Formik
         initialValues={data}
         validationSchema={validationSchema}
+        enableReinitialize={true}
         onSubmit={(values) => onSubmit(values)}
       >
         {({ values, handleChange, setFieldValue, touched, errors }) => (

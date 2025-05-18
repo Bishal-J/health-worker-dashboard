@@ -7,15 +7,36 @@ import CustomSearchInput from "@/components/common/search/CustomSearch";
 import { Box, Button, Container, Typography } from "@mui/material";
 import theme from "@/utils/theme";
 
-import { FormData } from "@/components/form/MultiStepForm"; // Ensure this points to your types
+import { FormData } from "@/components/form/MultiStepForm";
+import { useSyncForm } from "@/apis/workers";
 
 export default function FormSyncPage() {
   const router = useRouter();
   const [searchValue, setSearchValue] = useState("");
   const [draftForms, setDraftForms] = useState<FormData[]>([]);
 
+  const { mutate, isPending } = useSyncForm();
+
   const handleSyncData = () => {
-    // Placeholder for syncing logic
+    const drafts = JSON.parse(localStorage.getItem("formDrafts") || "[]");
+
+    if (!drafts || drafts.length === 0) {
+      console.log("No Drafts to sync");
+    }
+
+    if (drafts.length > 0) {
+      mutate(
+        {
+          forms: drafts,
+        },
+        {
+          onSuccess: () => {
+            localStorage.removeItem("formDrafts");
+            router.push("/");
+          },
+        }
+      );
+    }
   };
 
   // Load drafts from localStorage
@@ -67,7 +88,8 @@ export default function FormSyncPage() {
           <Button
             variant="contained"
             disableElevation
-            onClick={() => router.back()}
+            disabled={isPending}
+            onClick={() => router.push("/")}
           >
             Back
           </Button>
@@ -111,6 +133,8 @@ export default function FormSyncPage() {
                 nutritionStatus={form.nutritionStatus}
                 onDelete={handleDeleteDraft}
                 showDeleteButton={true}
+                showEditButton={true}
+                editLink={`/entry-new?uuid=${form.uuid}&edit=true`}
               />
             ))
           ) : (

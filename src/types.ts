@@ -6,7 +6,7 @@ export interface Form {
   description: string;
   first_name: string;
   last_name: string;
-  age: number;
+  age: string;
   bmi: number;
   gender: "Male" | "Female" | "Other";
   state: string;

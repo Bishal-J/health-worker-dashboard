@@ -60,7 +60,7 @@ export default function FormSubmitPage() {
           <Button
             variant="contained"
             disableElevation
-            onClick={() => router.back()}
+            onClick={() => router.push("/")}
           >
             Back
           </Button>

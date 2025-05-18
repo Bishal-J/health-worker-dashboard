@@ -3,4 +3,5 @@ export const HEALTH_WORKER_ENDPOINT = {
   postForm: "form",
   formId: (id: string) => `form/${id}`,
   formCount: "forms/count",
+  formBulk: "form/bulk",
 };

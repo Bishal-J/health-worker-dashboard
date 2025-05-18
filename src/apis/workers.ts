@@ -10,6 +10,7 @@ const QUERY_KEYS = {
     detail: (uuid: string) => ["forms", "detail", uuid] as const,
     count: ["forms", "count"] as const,
     create: ["forms", "create"] as const,
+    sync: ["form", "sync"] as const,
   },
 };
 
@@ -64,6 +65,19 @@ export const useCreateForm = () => {
     mutationFn: async (params) => {
       const res = await axiosPost<ApiResponse<Form>>(
         HEALTH_WORKER_ENDPOINT.postForm,
+        params
+      );
+      return res.data.body;
+    },
+  });
+};
+
+export const useSyncForm = () => {
+  return useMutation<Form, Error, CreateFormInput>({
+    mutationKey: QUERY_KEYS.forms.create,
+    mutationFn: async (params) => {
+      const res = await axiosPost<ApiResponse<Form>>(
+        HEALTH_WORKER_ENDPOINT.formBulk,
         params
       );
       return res.data.body;

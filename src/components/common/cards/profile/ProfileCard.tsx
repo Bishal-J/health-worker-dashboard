@@ -11,6 +11,7 @@ import {
   Typography,
 } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 import NextLink from "next/link";
 import React from "react";
 
@@ -24,7 +25,9 @@ type ProfileCardProps = {
   state: string;
   nutritionStatus: string;
   showDeleteButton?: boolean;
+  showEditButton?: boolean;
   onDelete?: (id: string | undefined) => void;
+  editLink?: string;
 };
 
 const ProfileCard: React.FC<ProfileCardProps> = ({
@@ -37,14 +40,26 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
   state,
   nutritionStatus,
   showDeleteButton = false,
+  showEditButton = false,
   onDelete,
+  editLink,
 }) => {
   const handleDeleteClick = (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
   ) => {
-    event.stopPropagation(); // Prevent navigation
+    event.stopPropagation();
     event.preventDefault();
     onDelete?.(id);
+  };
+
+  const handleEditClick = (
+    event: React.MouseEvent<HTMLButtonElement, MouseEvent>
+  ) => {
+    event.stopPropagation();
+    event.preventDefault();
+    if (editLink) {
+      window.location.href = editLink; // Redirect to edit page
+    }
   };
 
   return (
@@ -70,6 +85,21 @@ const ProfileCard: React.FC<ProfileCardProps> = ({
             aria-label="delete"
           >
             <DeleteIcon color="error" />
+          </IconButton>
+        )}
+
+        {showEditButton && editLink && (
+          <IconButton
+            onClick={handleEditClick}
+            sx={{
+              position: "absolute",
+              top: 8,
+              right: showDeleteButton ? 48 : 8,
+              zIndex: 1,
+            }}
+            aria-label="edit"
+          >
+            <EditIcon color="primary" />
           </IconButton>
         )}
 
