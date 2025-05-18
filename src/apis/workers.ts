@@ -2,6 +2,7 @@ import { axiosGet, axiosPost } from "@/config/axiosClient";
 import { HEALTH_WORKER_ENDPOINT } from "@/utils/urls";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import type { Form, CreateFormInput, ApiResponse } from "@/types";
+import { toast } from "react-toastify";
 
 // --- Query Keys ---
 const QUERY_KEYS = {
@@ -69,6 +70,9 @@ export const useCreateForm = () => {
       );
       return res.data.body;
     },
+    onError: (error) => {
+      toast.error(`Failed to submit form: ${error.message || "Unknown error"}`);
+    },
   });
 };
 
@@ -81,6 +85,9 @@ export const useSyncForm = () => {
         params
       );
       return res.data.body;
+    },
+    onError: (error) => {
+      toast.error(`Sync failed: ${error.message || "Unknown error"}`);
     },
   });
 };

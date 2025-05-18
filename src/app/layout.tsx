@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import Header from "@/components/common/header/Header";
 import theme from "@/utils/theme";
 import QueryProvider from "@/contexts/queryProviders";
+import { ToastContainer } from "react-toastify";
 
 export const metadata: Metadata = {
   title: "Health Worker",
@@ -25,6 +26,7 @@ export default function RootLayout({
             <QueryProvider>
               <Header />
               <main>{children}</main>
+              <ToastContainer />
             </QueryProvider>
           </ThemeProvider>
         </AppRouterCacheProvider>

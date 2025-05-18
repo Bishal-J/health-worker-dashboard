@@ -31,8 +31,11 @@ export default function FormSubmitPage() {
 
     return data.filter((form: Form) => {
       return (
-        form.first_name?.toLowerCase().includes(search) ||
-        form.last_name?.toLowerCase().includes(search) ||
+        [form.first_name, form.last_name]
+          .filter(Boolean)
+          .join(" ")
+          .toLowerCase()
+          .includes(search) ||
         form.gender?.toLowerCase().includes(search) ||
         form.uuid?.toLowerCase().includes(search)
       );

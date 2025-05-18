@@ -9,6 +9,7 @@ import theme from "@/utils/theme";
 
 import { FormData } from "@/components/form/MultiStepForm";
 import { useSyncForm } from "@/apis/workers";
+import { toast } from "react-toastify";
 
 export default function FormSyncPage() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function FormSyncPage() {
     const drafts = JSON.parse(localStorage.getItem("formDrafts") || "[]");
 
     if (!drafts || drafts.length === 0) {
-      console.log("No Drafts to sync");
+      toast.info("No Data to be synced!!");
     }
 
     if (drafts.length > 0) {
@@ -33,6 +34,7 @@ export default function FormSyncPage() {
           onSuccess: () => {
             localStorage.removeItem("formDrafts");
             router.push("/");
+            toast("Sync Successful");
           },
         }
       );
@@ -52,18 +54,27 @@ export default function FormSyncPage() {
   // Delete draft by ID
   const handleDeleteDraft = (uuid: string | undefined) => {
     if (!uuid) return;
+
+    // Filter out the draft with the given UUID
     const updatedDrafts = draftForms.filter((form) => form.uuid !== uuid);
+
+    // Update the state and localStorage
     setDraftForms(updatedDrafts);
     localStorage.setItem("formDrafts", JSON.stringify(updatedDrafts));
+
+    // Show a success toast
+    toast.success("Draft deleted successfully!");
   };
 
   // Filter based on search input
   const filteredDrafts = draftForms.filter((form) => {
     const search = searchValue.toLowerCase();
     return (
-      form.firstName.toLowerCase().includes(search) ||
-      form.lastName.toLowerCase().includes(search) ||
-      form.gender?.toLowerCase().includes(search)
+      [form.firstName, form.lastName]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase()
+        .includes(search) || form.gender?.toLowerCase().includes(search)
     );
   });
 
